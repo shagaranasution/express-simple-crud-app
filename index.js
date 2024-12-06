@@ -1,6 +1,7 @@
 import express, { json, urlencoded } from 'express';
 import { connect } from 'mongoose';
 import productRoute from './routes/product.route.js';
+import 'dotenv/config';
 
 // app
 const app = express();
@@ -16,13 +17,11 @@ app.get('/', (req, res) => {
   res.send('Hello from Node API');
 });
 
-connect(
-  'mongodb+srv://shagaranst:26oXevIdaoEtm3Q3@backenddb.srplw.mongodb.net/Express-Simple-CRUD-API?retryWrites=true&w=majority&appName=BackendDB'
-)
+connect(process.env.MONGODB_CONNECTION_STRING)
   .then(() => {
     console.log('Successfully connect to database.');
     app.listen(3000, () => {
       console.log('Server is running on port 3000.');
     });
   })
-  .catch(() => console.log('Fail connect to database!'));
+  .catch((e) => console.log('Fail connect to database!', e));
